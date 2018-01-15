@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>Seed Clicker</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<style>
+			#clicker{
+				transform: rotate(-35deg);
+    			margin-left: -60px;
+    			margin-bottom: 50px;
+			}
+
+			#clicker:active{
+				    transform: scale(1, 1);
+			}
+
+			#arboles i{
+				animation-name: salto;
+				animation-duration: 3s;
+				animation-iteration-count:infinite;
+				 animation-direction: alternate;
+				 margin: 5px;
+				 color:green;
+			}
+
+			@keyframes salto{
+				from{
+					transform:translateY(0%);
+				}
+				to{
+					transform:translateY(-50%);	
+				}
+			}
+		main section:nth-of-type(1){
+			background: #9ECC2B;
+		}
+		main section:nth-of-type(2){
+			background: #D1E5DC;
+		}
+		main section:nth-of-type(2) article{
+			height: 30%;
+   			padding: 30px;
+    		border: 2px solid #47B77F;
+    		overflow: hidden;
+    		display: none;
+		}
+		main section:nth-of-type(2) article i{
+			margin: 5px;
+		}
+		main section:nth-of-type(3){
+			background: #CEE398;
+		}
+		main section:nth-of-type(3) article{
+			padding-top: 7px;
+			padding-left: 10px;
+		}
+		#arboles_tienda i{
+			color:green;
+		}
+
+		#activistas_tienda i{
+			color: #58213D;
+		}
+		#ecofinca_tienda i{
+			color: #118865;
+		}
+		</style>
+		<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<header>
+			<h1 class="text-center">Seed Clicker</h1>
+			<h5 id="news" class="text-center"></h5>
+		</header>
+		<main class="container">
+			<div class="row">
+			<section class="col-md-4">
+				<h2 class="text-center">Almacen de semillas</h2>
+				<h5 id="SemillasParaGastar" class="text-center">Tienes 0 semillas </h5>
+				<h6 id="SemillasPorClick" class="text-center">Generas 0 por segundo</h6>
+				<img id="clicker" class="col-md-12" src="images/seed.png" alt="Semilla">
+				<div>
+					<p id="arboles"></p>
+				</div>
+			</section>
+			<section class="col-md-5">
+				<article class="row" id="activistas">
+				</article>
+				<article class="row" id="ecofinca">
+					
+				</article>
+				<article class="row" id="ong">
+					
+				</article>
+				<article class="row" id="planta">
+					
+				</article>
+				<article class="row" id="acuerdos">
+					
+				</article>
+			</section>
+			<section class="col-md-3">
+				<h2 class="text-center">Tienda</h2>
+				<article class="row" id="arboles_tienda">
+					<i class="fa fa-tree fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>Arboles</h3>
+					<p>15 semillas</p>
+					</div>
+				</article>
+				<article class="row" id="activistas_tienda">
+					<i class="fa fa-user fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>Activistas</h3>
+					<p>100 semillas</p>
+					</div>
+				</article>
+				<article class="row" id="ecofinca_tienda">
+					<i class="fa fa-home fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>Ecofinca</h3>
+					<p>1000 semillas</p>
+					</div>
+				</article>
+				<article class="row" id="ong_tienda">
+					<i class="fa fa-institution fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>ONG</h3>
+					<p>12000 semillas</p>
+					</div>
+				</article>
+				<article class="row" id="planta_tienda">
+					<i class="fa fa-recycle fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>Planta de reciclaje</h3>
+					<p>130000 semillas</p>
+					</div>
+				</article>
+					<article class="row" id="acuerdos_tienda">
+					<i class="fa fa-handshake-o fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<div class="col-md-8">
+					<h3>Acuerdos internacionales</h3>
+					<p>1,4 millones semillas</p>
+					</div>
+				</article>
+			</section>
+			</div>
+		</main>
+	</body>
+	<script>
+		/*Semillas por Click PONER DOCUMENT READY*/
+		let semillasParaGastar=0;
+		let semillasPorClick=0;
+		$("#clicker").click(function(){
+    		semillasParaGastar+=1;
+			$('#SemillasParaGastar').text('Tienes '+semillasParaGastar+ ' semillas');
+		});
+
+
+		/*Semillas por segundo*/
+		let bonus=null;
+		setInterval(function(){
+			semillasPorClick=1*bonus;
+			semillasParaGastar+=semillasPorClick;
+			$('#SemillasParaGastar').text('Tienes '+Math.floor(semillasParaGastar)+ ' semillas');
+			$('#SemillasPorClick').text('Generas '+Math.floor(semillasPorClick)+ ' por segundo');
+			}, 1000);
+
+		/*Tienda*/
+		let contador;
+
+
+		
+		let precioArboles=15;
+		let precioActivistas=100;
+		let precioEcofinca=1000;
+		let precioOng= 12000;
+		let precioPlanta=130000;
+		let precioAcuerdos=1400000;
+
+		/*Arboles*/	
+		$("#arboles_tienda").click(function(){
+			if(semillasParaGastar>precioArboles ||semillasParaGastar==precioArboles){
+			$("#arboles").css("display", "block");
+    		bonus+=0.2;
+    		semillasParaGastar-=precioArboles;
+    		precioArboles+=3;
+    		$('#arboles_tienda p').text(precioArboles + ' semillas');
+    		$('#arboles').append('<i class="fa fa-tree fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+		/*Activistas*/
+		$("#activistas_tienda").click(function(){
+			if(semillasParaGastar>precioActivistas ||semillasParaGastar==precioActivistas){
+			$("#activistas").css("display", "block");
+    		bonus+=1;
+    		semillasParaGastar-=precioActivistas;
+    		precioActivistas+=15;
+    		$('#activistas_tienda p').text(precioActivistas + ' semillas');
+    		$('#activistas').append('<i class="fa fa-user fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+		/*ecofinca*/
+		$("#ecofinca_tienda").click(function(){
+			if(semillasParaGastar>precioEcofinca ||semillasParaGastar==precioEcofinca){
+			$("#ecofinca").css("display", "block");
+    		bonus+=1;
+    		semillasParaGastar-=precioEcofinca;
+    		precioEcofinca+=200;
+    		$('#ecofinca_tienda p').text(precioEcofinca + ' semillas');
+    		$('#ecofinca').append('<i class="fa fa-home fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+		/*ong*/
+		$("#ong_tienda").click(function(){
+			if(semillasParaGastar>precioOng ||semillasParaGastar==precioOng){
+			$("#ong").css("display", "block");
+    		bonus+=1;
+    		semillasParaGastar-=precioOng;
+    		precioActivistas+=1800;
+    		$('#activistas_tienda p').text(precioOng + ' semillas');
+    		$('#ong').append('<i class="fa fa-institution fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+		/*planta*/
+		$("#planta_tienda").click(function(){
+			if(semillasParaGastar>precioPlanta ||semillasParaGastar==precioPlanta){
+			$("#planta").css("display", "block");
+    		bonus+=1;
+    		semillasParaGastar-=precioPlanta;
+    		precioActivistas+=1800;
+    		$('#activistas_tienda p').text(precioPlanta + ' semillas');
+    		$('#planta').append('<i class="fa fa-recycle fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+		/*acuerdos*/
+		$("#acuerdos_tienda").click(function(){
+			if(semillasParaGastar>precioAcuerdos ||semillasParaGastar==precioAcuerdos){
+			$("#acuerdos").css("display", "block");
+    		bonus+=1;
+    		semillasParaGastar-=precioAcuerdos;
+    		precioAcuerdos+=200000;
+    		$('#acuerdos_tienda p').text(precioAcuerdos + ' semillas');
+    		$('#acuerdos').append('<i class="fa fa-handshake-o fa fa-2x" aria-hidden="true"></i>')
+    		}
+		});
+
+
+	
+
+	</script>
+</html>
