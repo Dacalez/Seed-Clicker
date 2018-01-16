@@ -170,18 +170,47 @@
 			}, 1000);
 
 		/*Tienda*/
-		let contador;
-
-
 		
-		let precioArboles=15;
-		let precioActivistas=100;
-		let precioEcofinca=1000;
-		let precioOng= 12000;
-		let precioPlanta=130000;
-		let precioAcuerdos=1400000;
 
-		/*Arboles*/	
+
+		/* Variables items*/
+		let precioArboles=15;
+		let numArboles;
+		let precioActivistas=100;
+		let numActivistas;
+		let precioEcofinca=1000;
+		let numEcofinca;
+		let precioOng= 12000;
+		let numOng;
+		let precioPlanta=130000;
+		let numPlanta;
+		let precioAcuerdos=1400000;
+		let numAcuerdos;
+
+		/*Función Item tienda*/	
+		function tienda_items(id_tienda, precioItem, bonificacion, numeroItem, item, i){
+			$(id_tienda).click(function(){
+
+			if(semillasParaGastar>precioItem ||semillasParaGastar==precioItem){
+			
+			/*Pago item*/
+    		bonus+=bonificacion;
+    		semillasParaGastar-=precioItem;
+    		
+    		/*Incremento precio*/
+    		numeroItem++;
+    		let porcentual= numeroItem * 0.25
+    		let incrementoPrecio+=precioItem+porcentual;
+    		precioItem+= incrementoPrecio;
+
+    		/*Muestra de datos*/
+    		$(id_tienda).css("display", "block");
+    		$(id_tienda p).text(precioItem + ' semillas');
+    		$(item).append('<i class="fa ' + i + ' fa-2x" aria-hidden="true"></i>')
+    		}
+		});}
+
+
 		$("#arboles_tienda").click(function(){
 			if(semillasParaGastar>precioArboles ||semillasParaGastar==precioArboles){
 			$("#arboles").css("display", "block");
