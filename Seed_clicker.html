@@ -3,11 +3,14 @@
 		<title>Seed Clicker</title>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+
 		<style>
 			#clicker{
 				transform: rotate(-35deg);
-    			margin-left: -60px;
-    			margin-bottom: 50px;
+    			display: flex;
+   				margin: auto;
+   				margin-bottom: 10px;
 			}
 
 			#clicker:active{
@@ -49,6 +52,7 @@
 		}
 		main section:nth-of-type(3){
 			background: #CEE398;
+			position:relative;
 		}
 		main section:nth-of-type(3) article{
 			padding-top: 7px;
@@ -64,6 +68,30 @@
 		#ecofinca_tienda i{
 			color: #118865;
 		}
+		#potenciador_info{
+			position: absolute;
+    		top: 30px;
+    		background-color: lightblue;
+    		border: 2.2px solid #78D261;
+    		left: -75px;
+		}
+		.potenciador::before{
+ 			content: attr(data-explicacion);
+			background-color:black;
+			  position: absolute;
+			  color: white;
+			  font-size: 10px;
+			  text-transform: uppercase;
+			  left: 0px;
+			  top: 30px;
+			  opacity: 0;
+			  transition: all 0.5s linear;
+			}
+		.potenciador:hover::before{
+				  display:block;
+				  opacity:1;
+				  transition: all 0.3s linear;
+
 		</style>
 		<script
   src="https://code.jquery.com/jquery-3.2.1.js"
@@ -104,43 +132,45 @@
 			</section>
 			<section class="col-md-3">
 				<h2 class="text-center">Tienda</h2>
+				<div class="row" id="potenciadores"></div>
+				<div class="row" id="potenciador_info"></div>
 				<article class="row" id="arboles_tienda">
-					<i class="fa fa-tree fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-tree fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>Arboles</h3>
 					<p>15 semillas</p>
 					</div>
 				</article>
 				<article class="row" id="activistas_tienda">
-					<i class="fa fa-user fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-user fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>Activistas</h3>
 					<p>100 semillas</p>
 					</div>
 				</article>
 				<article class="row" id="ecofinca_tienda">
-					<i class="fa fa-home fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-home fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>Ecofinca</h3>
 					<p>1000 semillas</p>
 					</div>
 				</article>
 				<article class="row" id="ong_tienda">
-					<i class="fa fa-institution fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-institution fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>ONG</h3>
 					<p>12000 semillas</p>
 					</div>
 				</article>
 				<article class="row" id="planta_tienda">
-					<i class="fa fa-recycle fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-recycle fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>Planta de reciclaje</h3>
 					<p>130000 semillas</p>
 					</div>
 				</article>
 					<article class="row" id="acuerdos_tienda">
-					<i class="fa fa-handshake-o fa-3x fa-fwcol-md-4" aria-hidden="true"></i>
+					<i class="fa fa-handshake-o fa-3x fa-fw col-md-4" aria-hidden="true"></i>
 					<div class="col-md-8">
 					<h3>Acuerdos internacionales</h3>
 					<p>1,4 millones semillas</p>
@@ -150,13 +180,25 @@
 			</div>
 		</main>
 	</body>
+	<script id="address-template" type="text/x-handlebars-template">
+		{{#each animals}}
+  		<i class="fa {{{fa}}} fa-1x fa-fw col-md-2 center-block" data-referencia="{{{referencia}}}" aria-hidden="true"></i>
+  		{{/each}}
+	</script>
+	<script id="potenciador-info" type="text/x-handlebars-template">
+		<i class="fa {{{fa}}} fa-1x fa-fw col-md-2 center-block" aria-hidden="true"></i>
+		<h5>{{{nombre}}}</h5>
+		<p>{{{explicacion}}}</p>
+		<p>{{{precio}}} semillas</p>
+
+	</script>
 	<script>
 		/*Semillas por Click PONER DOCUMENT READY*/
 		let semillasParaGastar=0;
 		let semillasPorClick=0;
 		$("#clicker").click(function(){
     		semillasParaGastar+=1;
-			$('#SemillasParaGastar').text('Tienes '+semillasParaGastar+ ' semillas');
+			$('#SemillasParaGastar').text('Tienes '+Math.floor(semillasParaGastar)+ ' semillas');
 		});
 
 
@@ -166,16 +208,18 @@
 			semillasPorClick=1*bonus;
 			semillasParaGastar+=semillasPorClick;
 			$('#SemillasParaGastar').text('Tienes '+Math.floor(semillasParaGastar)+ ' semillas');
-			$('#SemillasPorClick').text('Generas '+Math.floor(semillasPorClick)+ ' por segundo');
+			$('#SemillasPorClick').text('Generas '+semillasPorClick+ ' por segundo');
 			}, 1000);
 
+		/*Noticias*/
+	
 		/*Tienda*/
 		
 
 
 		/* Variables items*/
 		let precioArboles=15;
-		let numArboles;
+		let numArboles=null;
 		let precioActivistas=100;
 		let numActivistas;
 		let precioEcofinca=1000;
@@ -187,37 +231,26 @@
 		let precioAcuerdos=1400000;
 		let numAcuerdos;
 
-		/*Función Item tienda*/	
-		function tienda_items(id_tienda, precioItem, bonificacion, numeroItem, item, i){
-			$(id_tienda).click(function(){
-
-			if(semillasParaGastar>precioItem ||semillasParaGastar==precioItem){
-			
-			/*Pago item*/
-    		bonus+=bonificacion;
-    		semillasParaGastar-=precioItem;
-    		
-    		/*Incremento precio*/
-    		numeroItem++;
-    		let porcentual= numeroItem * 0.25
-    		let incrementoPrecio+=precioItem+porcentual;
-    		precioItem+= incrementoPrecio;
-
-    		/*Muestra de datos*/
-    		$(id_tienda).css("display", "block");
-    		$(id_tienda p).text(precioItem + ' semillas');
-    		$(item).append('<i class="fa ' + i + ' fa-2x" aria-hidden="true"></i>')
-    		}
-		});}
+		function incremento(numItem){
+			let potencial= numItem *3.5;
+			Math.floor(potencial);
+			return potencial;
+		}
 
 
 		$("#arboles_tienda").click(function(){
 			if(semillasParaGastar>precioArboles ||semillasParaGastar==precioArboles){
 			$("#arboles").css("display", "block");
     		bonus+=0.2;
+
+    		numArboles+=1;
+    		console.log(numArboles);
+
     		semillasParaGastar-=precioArboles;
-    		precioArboles+=3;
-    		$('#arboles_tienda p').text(precioArboles + ' semillas');
+    		precioArboles+=incremento(numArboles);
+
+
+    		$('#arboles_tienda p').text(Math.floor(precioArboles) + ' semillas');
     		$('#arboles').append('<i class="fa fa-tree fa-2x" aria-hidden="true"></i>')
     		}
 		});
@@ -281,6 +314,87 @@
     		$('#acuerdos').append('<i class="fa fa-handshake-o fa fa-2x" aria-hidden="true"></i>')
     		}
 		});
+
+		$(function () {
+  			// Grab the template script
+  var theTemplateScript = $("#address-template").html();
+
+  // Compile the template
+  var theTemplate = Handlebars.compile(theTemplateScript);
+
+  // Define our data object
+   var context = {
+    animals:[
+      {
+        fa: "fa-coffee",
+        nombre: "café",
+        explicacion: "Los activistas luchan más por la causa"
+      },
+      {
+        fa: "fa-bandcamp",
+        nombre: "Brújula",
+        explicacion: "La brújula mejora tus acuerdos internacionales"
+      },
+      {
+      	fa: "fa-sun-o",
+        nombre: "Energia solar",
+        explicacion: "Las ecofincas tienen energia solar"
+      },
+      {
+        fa: "fa-credit-card",
+        nombre: "Tarjeta de crédito",
+        explicacion: "Ahora se pueden hacer donaciones"
+      }
+    ]
+  };
+
+  // Pass our data to the template
+  var theCompiledHtml = theTemplate(context);
+
+  // Add the compiled html to the page
+  $('#potenciadores').html(theCompiledHtml);
+});
+
+	$(function () {
+  	// Grab the template script
+  var theTemplateScript = $("#potenciador-info").html();
+
+  // Compile the template
+  var theTemplate = Handlebars.compile(theTemplateScript);
+
+  // Define our data object
+   var context = {
+    animals:[
+      {
+        fa: "fa-coffee",
+        nombre: "café",
+        explicacion: "Los activistas luchan más por la causa"
+      },
+      {
+        fa: "fa-bandcamp",
+        nombre: "Brújula",
+        explicacion: "La brújula mejora tus acuerdos internacionales"
+      },
+      {
+      	fa: "fa-sun-o",
+        nombre: "Energia solar",
+        explicacion: "Las ecofincas tienen energia solar"
+      },
+      {
+        fa: "fa-credit-card",
+        nombre: "Tarjeta de crédito",
+        explicacion: "Ahora se pueden hacer donaciones"
+      }
+    ]
+  };
+
+  // Pass our data to the template
+  var theCompiledHtml = theTemplate(context);
+
+  // Add the compiled html to the page
+  $('#potenciador_info').html(theCompiledHtml);
+});
+
 
 
 	
