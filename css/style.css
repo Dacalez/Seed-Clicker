@@ -1,0 +1,109 @@
+#clicker{
+				transform: rotate(-35deg);
+    			display: flex;
+   				margin: auto;
+   				margin-bottom: 10px;
+			}
+
+#clicker:active{
+	
+				    transform: scale(1, 1);
+				   
+			}
+
+			#arboles i{
+				animation-name: salto;
+				animation-duration: 3s;
+				animation-iteration-count:infinite;
+				 animation-direction: alternate;
+				 margin: 5px;
+				 color:green;
+			}
+
+			@keyframes salto{
+				from{
+					transform:translateY(0%);
+				}
+				to{
+					transform:translateY(-50%);	
+				}
+			}
+		main section:nth-of-type(1){
+			background: #9ECC2B;
+
+		}
+		main section:nth-of-type(2){
+			background: #D1E5DC;
+		}
+		main section:nth-of-type(2) article{
+			height: 30%;
+   			padding: 30px;
+    		border: 2px solid #47B77F;
+    		overflow: hidden;
+    		display: none;
+		}
+		main section:nth-of-type(2) article i{
+			margin: 5px;
+		}
+		main section:nth-of-type(3){
+			background: #CEE398;
+			position:relative;
+		}
+		main section:nth-of-type(3) article{
+			padding-top: 7px;
+			padding-left: 10px;
+		}
+		#arboles_tienda i{
+			color:green;
+		}
+
+		#activistas_tienda i{
+			color: #58213D;
+		}
+		#ecofinca_tienda i{
+			color: #118865;
+		}
+
+		.potenciador:hover{
+			transform: scale3d(2, 0.7, 0.2);
+		}
+
+		
+		#getSeed{
+			position: absolute;
+			z-index: 2;
+			margin:0;
+			padding: 0;
+			line-height: 1;
+			font-size: 20px;
+			color: white;
+		}
+		
+		#potenciador_info{
+			position: absolute;
+    		top: 30px;
+    		display:none;
+    		background-color: lightblue;
+    		border: 2.2px solid #78D261;
+    		left: -75px;
+    		opacity: 0;
+    		z-index: 2;
+		}
+		.potenciador::before{
+ 			content: attr(data-explicacion);
+			background-color:black;
+			  position: absolute;
+			  color: white;
+			  font-size: 10px;
+			  text-transform: uppercase;
+			  left: 0px;
+			  top: 30px;
+			  opacity: 0;
+			  transition: all 0.5s linear;
+			}
+		.potenciador:hover::before{
+				  display:block;
+				  opacity:1;
+				  transition: all 0.3s linear;
+				}
+				

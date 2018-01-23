@@ -3,96 +3,8 @@
 		<title>Seed Clicker</title>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		 <link rel="stylesheet" type="text/css" href="CSS/style.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-
-		<style>
-			#clicker{
-				transform: rotate(-35deg);
-    			display: flex;
-   				margin: auto;
-   				margin-bottom: 10px;
-			}
-
-			#clicker:active{
-				    transform: scale(1, 1);
-			}
-
-			#arboles i{
-				animation-name: salto;
-				animation-duration: 3s;
-				animation-iteration-count:infinite;
-				 animation-direction: alternate;
-				 margin: 5px;
-				 color:green;
-			}
-
-			@keyframes salto{
-				from{
-					transform:translateY(0%);
-				}
-				to{
-					transform:translateY(-50%);	
-				}
-			}
-		main section:nth-of-type(1){
-			background: #9ECC2B;
-		}
-		main section:nth-of-type(2){
-			background: #D1E5DC;
-		}
-		main section:nth-of-type(2) article{
-			height: 30%;
-   			padding: 30px;
-    		border: 2px solid #47B77F;
-    		overflow: hidden;
-    		display: none;
-		}
-		main section:nth-of-type(2) article i{
-			margin: 5px;
-		}
-		main section:nth-of-type(3){
-			background: #CEE398;
-			position:relative;
-		}
-		main section:nth-of-type(3) article{
-			padding-top: 7px;
-			padding-left: 10px;
-		}
-		#arboles_tienda i{
-			color:green;
-		}
-
-		#activistas_tienda i{
-			color: #58213D;
-		}
-		#ecofinca_tienda i{
-			color: #118865;
-		}
-		#potenciador_info{
-			position: absolute;
-    		top: 30px;
-    		background-color: lightblue;
-    		border: 2.2px solid #78D261;
-    		left: -75px;
-		}
-		.potenciador::before{
- 			content: attr(data-explicacion);
-			background-color:black;
-			  position: absolute;
-			  color: white;
-			  font-size: 10px;
-			  text-transform: uppercase;
-			  left: 0px;
-			  top: 30px;
-			  opacity: 0;
-			  transition: all 0.5s linear;
-			}
-		.potenciador:hover::before{
-				  display:block;
-				  opacity:1;
-				  transition: all 0.3s linear;
-
-		</style>
 		<script
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -110,6 +22,7 @@
 				<h5 id="SemillasParaGastar" class="text-center">Tienes 0 semillas </h5>
 				<h6 id="SemillasPorClick" class="text-center">Generas 0 por segundo</h6>
 				<img id="clicker" class="col-md-12" src="images/seed.png" alt="Semilla">
+				<p id="getSeed"></p>
 				<div>
 					<p id="arboles"></p>
 				</div>
@@ -182,7 +95,9 @@
 	</body>
 	<script id="address-template" type="text/x-handlebars-template">
 		{{#each animals}}
-  		<i class="fa {{{fa}}} fa-1x fa-fw col-md-2 center-block" data-referencia="{{{referencia}}}" aria-hidden="true"></i>
+		<div class="potenciador">
+  		<i class="fa {{{fa}}} pofa-1x fa-fw col-md-2 center-block" data-referencia="{{{referencia}}}" aria-hidden="true"></i>
+  		</div>
   		{{/each}}
 	</script>
 	<script id="potenciador-info" type="text/x-handlebars-template">
@@ -192,212 +107,6 @@
 		<p>{{{precio}}} semillas</p>
 
 	</script>
-	<script>
-		/*Semillas por Click PONER DOCUMENT READY*/
-		let semillasParaGastar=0;
-		let semillasPorClick=0;
-		$("#clicker").click(function(){
-    		semillasParaGastar+=1;
-			$('#SemillasParaGastar').text('Tienes '+Math.floor(semillasParaGastar)+ ' semillas');
-		});
-
-
-		/*Semillas por segundo*/
-		let bonus=null;
-		setInterval(function(){
-			semillasPorClick=1*bonus;
-			semillasParaGastar+=semillasPorClick;
-			$('#SemillasParaGastar').text('Tienes '+Math.floor(semillasParaGastar)+ ' semillas');
-			$('#SemillasPorClick').text('Generas '+semillasPorClick+ ' por segundo');
-			}, 1000);
-
-		/*Noticias*/
-	
-		/*Tienda*/
-		
-
-
-		/* Variables items*/
-		let precioArboles=15;
-		let numArboles=null;
-		let precioActivistas=100;
-		let numActivistas;
-		let precioEcofinca=1000;
-		let numEcofinca;
-		let precioOng= 12000;
-		let numOng;
-		let precioPlanta=130000;
-		let numPlanta;
-		let precioAcuerdos=1400000;
-		let numAcuerdos;
-
-		function incremento(numItem){
-			let potencial= numItem *3.5;
-			Math.floor(potencial);
-			return potencial;
-		}
-
-
-		$("#arboles_tienda").click(function(){
-			if(semillasParaGastar>precioArboles ||semillasParaGastar==precioArboles){
-			$("#arboles").css("display", "block");
-    		bonus+=0.2;
-
-    		numArboles+=1;
-    		console.log(numArboles);
-
-    		semillasParaGastar-=precioArboles;
-    		precioArboles+=incremento(numArboles);
-
-
-    		$('#arboles_tienda p').text(Math.floor(precioArboles) + ' semillas');
-    		$('#arboles').append('<i class="fa fa-tree fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		/*Activistas*/
-		$("#activistas_tienda").click(function(){
-			if(semillasParaGastar>precioActivistas ||semillasParaGastar==precioActivistas){
-			$("#activistas").css("display", "block");
-    		bonus+=1;
-    		semillasParaGastar-=precioActivistas;
-    		precioActivistas+=15;
-    		$('#activistas_tienda p').text(precioActivistas + ' semillas');
-    		$('#activistas').append('<i class="fa fa-user fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		/*ecofinca*/
-		$("#ecofinca_tienda").click(function(){
-			if(semillasParaGastar>precioEcofinca ||semillasParaGastar==precioEcofinca){
-			$("#ecofinca").css("display", "block");
-    		bonus+=1;
-    		semillasParaGastar-=precioEcofinca;
-    		precioEcofinca+=200;
-    		$('#ecofinca_tienda p').text(precioEcofinca + ' semillas');
-    		$('#ecofinca').append('<i class="fa fa-home fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		/*ong*/
-		$("#ong_tienda").click(function(){
-			if(semillasParaGastar>precioOng ||semillasParaGastar==precioOng){
-			$("#ong").css("display", "block");
-    		bonus+=1;
-    		semillasParaGastar-=precioOng;
-    		precioActivistas+=1800;
-    		$('#activistas_tienda p').text(precioOng + ' semillas');
-    		$('#ong').append('<i class="fa fa-institution fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		/*planta*/
-		$("#planta_tienda").click(function(){
-			if(semillasParaGastar>precioPlanta ||semillasParaGastar==precioPlanta){
-			$("#planta").css("display", "block");
-    		bonus+=1;
-    		semillasParaGastar-=precioPlanta;
-    		precioActivistas+=1800;
-    		$('#activistas_tienda p').text(precioPlanta + ' semillas');
-    		$('#planta').append('<i class="fa fa-recycle fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		/*acuerdos*/
-		$("#acuerdos_tienda").click(function(){
-			if(semillasParaGastar>precioAcuerdos ||semillasParaGastar==precioAcuerdos){
-			$("#acuerdos").css("display", "block");
-    		bonus+=1;
-    		semillasParaGastar-=precioAcuerdos;
-    		precioAcuerdos+=200000;
-    		$('#acuerdos_tienda p').text(precioAcuerdos + ' semillas');
-    		$('#acuerdos').append('<i class="fa fa-handshake-o fa fa-2x" aria-hidden="true"></i>')
-    		}
-		});
-
-		$(function () {
-  			// Grab the template script
-  var theTemplateScript = $("#address-template").html();
-
-  // Compile the template
-  var theTemplate = Handlebars.compile(theTemplateScript);
-
-  // Define our data object
-   var context = {
-    animals:[
-      {
-        fa: "fa-coffee",
-        nombre: "café",
-        explicacion: "Los activistas luchan más por la causa"
-      },
-      {
-        fa: "fa-bandcamp",
-        nombre: "Brújula",
-        explicacion: "La brújula mejora tus acuerdos internacionales"
-      },
-      {
-      	fa: "fa-sun-o",
-        nombre: "Energia solar",
-        explicacion: "Las ecofincas tienen energia solar"
-      },
-      {
-        fa: "fa-credit-card",
-        nombre: "Tarjeta de crédito",
-        explicacion: "Ahora se pueden hacer donaciones"
-      }
-    ]
-  };
-
-  // Pass our data to the template
-  var theCompiledHtml = theTemplate(context);
-
-  // Add the compiled html to the page
-  $('#potenciadores').html(theCompiledHtml);
-});
-
-	$(function () {
-  	// Grab the template script
-  var theTemplateScript = $("#potenciador-info").html();
-
-  // Compile the template
-  var theTemplate = Handlebars.compile(theTemplateScript);
-
-  // Define our data object
-   var context = {
-    animals:[
-      {
-        fa: "fa-coffee",
-        nombre: "café",
-        explicacion: "Los activistas luchan más por la causa"
-      },
-      {
-        fa: "fa-bandcamp",
-        nombre: "Brújula",
-        explicacion: "La brújula mejora tus acuerdos internacionales"
-      },
-      {
-      	fa: "fa-sun-o",
-        nombre: "Energia solar",
-        explicacion: "Las ecofincas tienen energia solar"
-      },
-      {
-        fa: "fa-credit-card",
-        nombre: "Tarjeta de crédito",
-        explicacion: "Ahora se pueden hacer donaciones"
-      }
-    ]
-  };
-
-  // Pass our data to the template
-  var theCompiledHtml = theTemplate(context);
-
-  // Add the compiled html to the page
-  $('#potenciador_info').html(theCompiledHtml);
-});
-
-
-
-	
-
-	</script>
+	<script src="js/templates/plantillas.js"></script>
+	<script src="js/game.js"></script>
 </html>
